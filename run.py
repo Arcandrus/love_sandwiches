@@ -75,6 +75,17 @@ def calculate_surplus(sales_row):
 
 	return surplus_data
 
+def get_last_five_sales():
+	"""
+	Pull the last fives sales values for each sandwich
+	"""
+	sales = SHEET.worksheet('sales')
+	columns = []
+	for i in range(1,7):
+		column = sales.col_values(i)
+		columns.append(column[-5:])
+	return columns
+
 def main():
 	"""
 	Run all functions of program
@@ -86,4 +97,5 @@ def main():
 	update_worksheet('surplus', surplus_data)
 
 print("Welcome to Love Sandwiches Data Control program.\n")
-main()
+sales_columns = get_last_five_sales()
+#main()
