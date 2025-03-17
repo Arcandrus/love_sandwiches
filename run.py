@@ -27,7 +27,7 @@ def get_sales_data():
 		sales_data = data_str.split(',')
 
 		if validate_data(sales_data):
-			print('Data is valid')
+			print('\nData is valid\n')
 			break
 	return sales_data
 
@@ -47,23 +47,14 @@ def validate_data(values):
 
 	return True
 
-def update_sales_worksheet(data):
+def update_worksheet(worksheet, data):
 	"""
-	Update sales worksheet with entered data
+	Update any worksheet with entered/cacluated data
 	"""
-	print('Updating sales worksheet...\n')
-	sales_worksheet = SHEET.worksheet('sales')
-	sales_worksheet.append_row(data)
-	print('Sales worksheet updated successfully.\n')
-
-def update_surplus_worksheet(data):
-	"""
-	Update surplus worksheet with calculated data
-	"""
-	print('Updating surplus worksheet...\n')
-	surplus_worksheet = SHEET.worksheet('surplus')
-	surplus_worksheet.append_row(data)
-	print('Surplus worksheet updated successfully.\n')
+	print(f'Updating {worksheet} worksheet...\n')
+	worksheet_update = SHEET.worksheet(worksheet)
+	worksheet_update.append_row(data)
+	print(f'{worksheet} worksheet updated successfully.\n')
 
 def calculate_surplus(sales_row):
 	"""
@@ -90,9 +81,9 @@ def main():
 	"""
 	data = get_sales_data()
 	sales_data = [int(num) for num in data]
-	update_sales_worksheet(sales_data)
+	update_worksheet('sales', sales_data)
 	surplus_data = calculate_surplus(sales_data)
-	update_surplus_worksheet(surplus_data)
+	update_worksheet('surplus', surplus_data)
 
 print("Welcome to Love Sandwiches Data Control program.\n")
 main()
