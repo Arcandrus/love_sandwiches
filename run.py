@@ -1,5 +1,5 @@
-import gspread
-from google.oauth2.service_account import Credentials
+import gspread # type: ignore
+from google.oauth2.service_account import Credentials # type: ignore
 from pprint import pprint
 
 SCOPE = [
