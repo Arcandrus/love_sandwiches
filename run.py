@@ -29,6 +29,7 @@ def get_sales_data():
 		if validate_data(sales_data):
 			print('\nData is valid\n')
 			break
+
 	return sales_data
 
 def validate_data(values):
@@ -84,7 +85,22 @@ def get_last_five_sales():
 	for i in range(1,7):
 		column = sales.col_values(i)
 		columns.append(column[-5:])
+
 	return columns
+
+def calculate_stock_data(data):
+	"""
+	Genereates recommendations of stock  levels based on sales
+	"""
+	print('Calculating stock data...\n')
+	new_stock_data = []
+	for column in data:
+		int_column = [int(num) for num in column]
+		average = sum(int_column) / len(int_column)
+		stock_num = round(average * 1.1)
+		new_stock_data.append(stock_num)
+
+	return new_stock_data
 
 def main():
 	"""
@@ -95,7 +111,9 @@ def main():
 	update_worksheet('sales', sales_data)
 	surplus_data = calculate_surplus(sales_data)
 	update_worksheet('surplus', surplus_data)
+	sales_columns = get_last_five_sales()
+	stock_data = calculate_stock_data(sales_columns)
+	update_worksheet('stock', stock_data)
 
 print("Welcome to Love Sandwiches Data Control program.\n")
-sales_columns = get_last_five_sales()
-#main()
+main()
