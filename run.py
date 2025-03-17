@@ -56,6 +56,15 @@ def update_sales_worksheet(data):
 	sales_worksheet.append_row(data)
 	print('Sales worksheet updated successfully.\n')
 
+def update_surplus_worksheet(data):
+	"""
+	Update surplus worksheet with calculated data
+	"""
+	print('Updating surplus worksheet...\n')
+	surplus_worksheet = SHEET.worksheet('surplus')
+	surplus_worksheet.append_row(data)
+	print('Surplus worksheet updated successfully.\n')
+
 def calculate_surplus(sales_row):
 	"""
 	Use sales data and stock data to determine surplus stock for each market day
@@ -64,20 +73,16 @@ def calculate_surplus(sales_row):
 	 - Positive indicates waste
 	 - Negative indicates extra made to meet demand
 	"""
-
 	print("Calculating surplus data...\n")
 	stock = SHEET.worksheet('stock').get_all_values()
 	stock_row = stock[-1]
-	#surplus = [int(stock_row[i]) - int(sales_row[i]) for i in range(len(stock_row))]
-
 	surplus_data = []
+
 	for stock, sales in zip(stock_row, sales_row):
 		surplus = int(stock) - sales
 		surplus_data.append(surplus)
 
 	return surplus_data
-	#print(surplus)
-
 
 def main():
 	"""
@@ -86,8 +91,8 @@ def main():
 	data = get_sales_data()
 	sales_data = [int(num) for num in data]
 	update_sales_worksheet(sales_data)
-	new_surplus_data = calculate_surplus(sales_data)
-	print(new_surplus_data)
+	surplus_data = calculate_surplus(sales_data)
+	update_surplus_worksheet(surplus_data)
 
 print("Welcome to Love Sandwiches Data Control program.\n")
 main()
