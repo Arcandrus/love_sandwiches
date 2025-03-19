@@ -102,6 +102,10 @@ def calculate_stock_data(data):
 
 	return new_stock_data
 
+def get_stock_data(data):
+	headings = SHEET.worksheet('sales').row_values(1)
+	return {headings[i]: data[i] for i in range(len(data))}
+
 def main():
 	"""
 	Run all functions of program
@@ -114,6 +118,11 @@ def main():
 	sales_columns = get_last_five_sales()
 	stock_data = calculate_stock_data(sales_columns)
 	update_worksheet('stock', stock_data)
+	return stock_data
 
-print("Welcome to Love Sandwiches Data Control program.\n")
-main()
+print("Welcome to Love Sandwiches data automation.\n")
+stock_data = main()
+stock_values = get_stock_data(stock_data)
+print('Recommended sandwich stock for next market: ')
+for sandwich, stock in stock_values.items():
+    print(f"{sandwich.title():<18} | {stock:>6}")
